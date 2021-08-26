@@ -1,59 +1,133 @@
 "use strict";
 window.addEventListener("load", start);
 
-let winner ="computer";
+let playersChoice;
+let computersChoice;
 
 
+const rock = document.querySelector(".rock");
+const paper = document.querySelector(".paper");
+const scissors = document.querySelector(".scissors");
+
+    
 
 
 function start() {
     console.log("start");
-
-    playersChoice()
+    playerChoice()
 }
 
-function playersChoice() {
+function playerChoice() {
     console.log("playersChoice");
 
-    computersRandomChoice()
+   
+
+   rock.addEventListener("click", function() {
+    playersChoice = "rock";
+    computerRandomChoice();
+   });
+
+   paper.addEventListener("click", function() {
+    playersChoice = "paper";
+    computerRandomChoice();
+   });
+
+   scissors.addEventListener("click", function() {
+    playersChoice = "scissors";
+    computerRandomChoice();
+   });
+   
 }
 
-function computersRandomChoice() {
+function computerRandomChoice() {
     console.log("computersRandomChoice");
+   
+    computersChoice = Math.floor(Math.random() * 2);
 
     startTimeAnimation()
 }
 
+
+
 function startTimeAnimation() {
     console.log("startTimeAnimation");
 
-    if (winner === "computer") {
-        showLooser()
-    } else if (winner ==="user") {
-        showWinnner();
-    } else {
-        showDraw();
+    document.querySelector("#win").classList.add("hidden");
+    document.querySelector("#lose").classList.add("hidden");
+    document.querySelector("#draw").classList.add("hidden");
+
+    
+
+    document.querySelector("#player1").classList.add("shake");
+    document.querySelector("#player2").classList.add("shake");
+
+    document.querySelector("#player1").addEventListener("animationend", reveal);
+
+   
+}
+
+function reveal() {
+    console.log("reveal");
+    document.querySelector("#player1").classList.remove("shake");
+    document.querySelector("#player2").classList.remove("shake");
+
+    if (playersChoice === "rock") {
+        document.querySelector("#player1").classList.add("rock");
+    } else if (playersChoice === "paper") {
+        document.querySelector("#player1").classList.add("paper");
+    } else if (playersChoice === "scissors") {
+        document.querySelector("#player1").classList.add("scissors");
+    }
+    
+    if (computersChoice === 0) {
+        document.querySelector("#player2").classList.add("rock");
+    } else if (computersChoice === 1) {
+        document.querySelector("#player2").classList.add("paper");
+    } else if (computersChoice === 2) {
+        document.querySelector("#player2").classList.add("scissors");
     }
 
     whoWins()
 }
 
 function whoWins() {
-    console.log("swhoWins");
+    console.log("whoWins");
+
+    if (playersChoice === "rock" && computersChoice === 0) {
+        showDraw();
+    } else if (playersChoice === "rock" && computersChoice === 1) {
+        showLooser();
+    } else if (playersChoice === "rock" && computersChoice === 2) {
+        showWinnner();
+    } else if (playersChoice === "scissors" && computersChoice === 0) {
+        showLooser();
+    }
+    else if (playersChoice === "scissors" && computersChoice === 1) {
+        showWinnner();
+    } else if (playersChoice === "scissors" && computersChoice === 2) {
+        showDraw();
+    } else if (playersChoice === "paper" && computersChoice === 0) {
+        showWinnner();
+    } else if (playersChoice === "paper" && computersChoice === 1) {
+        showDraw();
+    } else {
+        showLooser();
+    }
 }
 
 function showWinnner() {
     console.log("showWinnner");
+    document.querySelector("#win").classList.remove("hidden");
 }
 
 function showLooser() {
     console.log("showLooser");
+    document.querySelector("#lose").classList.remove("hidden");
+
 }
 
 function showDraw() {
     console.log("showDraw");
-}
+    document.querySelector("#draw").classList.remove("hidden");
 
-function tryAgain() {
-    console.log("tryAgain");
 }
